@@ -5,7 +5,7 @@ import br.inatel.pos.mobile.dm110.to.IPAddressTO;
 
 public interface Management {
 
-	void addNewIP(IPAddressTO adressIP);
+	void addNewIP(String ip , String mask);
 
 	boolean listIP(String ip);
 

@@ -20,5 +20,5 @@ public interface ManagementService {
 	@Path("/status/{IP}")
 	@Produces(MediaType.APPLICATION_JSON)
 	boolean listIP(@PathParam("IP") String ip);
-
+	
 }

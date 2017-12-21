@@ -15,7 +15,7 @@ public class NetworkIpGen {
 //		}
 //	}
 
-	private static String[] generateIps(String networkIp, int cidr) {
+	public static String[] generateIps(String networkIp, int cidr) {
 		int rangeSize = 0;
 		for (int i = 0; i < 32 - cidr; i++) {
 			rangeSize |= 1 << i;
@@ -28,7 +28,7 @@ public class NetworkIpGen {
 		return ips;
 	}
 
-	private static long fromIp(String ip) {
+	public static long fromIp(String ip) {
 		String[] octs = ip.split("\\.");
 		long octs1 = Long.parseLong(octs[0]);
 		long octs2 = Long.parseLong(octs[1]);
@@ -37,7 +37,7 @@ public class NetworkIpGen {
 		return (octs1 << 24) | (octs2 << 16) | (octs3 << 8) | octs4;
 	}
 
-	private static String toIp(long value) {
+	public static String toIp(long value) {
 		return String.format("%s.%s.%s.%s", value >> 24, (value >> 16) & 255, (value >> 8) & 255, value & 255);
 	}
 	

@@ -14,9 +14,8 @@ public class ManagementServiceImpl implements ManagementService {
 	private ManagementRemote managementBean;
 
 	@Override
-	public void addNewIP(String ip , String mask) {
-		// arrumar isso
-		managementBean.addNewIP( new IPAddressTO() );
+	public void addNewIP(String ip , String mask) {		
+		managementBean.addNewIP( ip , mask );
 	}
 
 	@Override

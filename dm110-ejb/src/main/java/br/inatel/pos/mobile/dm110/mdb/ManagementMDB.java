@@ -11,12 +11,13 @@ import javax.jms.ObjectMessage;
 import br.inatel.pos.mobile.dm110.dao.AddressDAO;
 import br.inatel.pos.mobile.dm110.entities.IPAddress;
 import br.inatel.pos.mobile.dm110.to.IPAddressTO;
+import br.inatel.pos.mobile.dm110.util.TestRuntime;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType",
 								  propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination",
-								  propertyValue = "java:/jms/queue/addressqueue"),
+								  propertyValue = "java:/jms/queue/managementqueue"),
 		@ActivationConfigProperty(propertyName = "maxSession",
 								  propertyValue = "10")
 })
@@ -31,13 +32,16 @@ public class ManagementMDB implements MessageListener {
 			if (message instanceof ObjectMessage) {
 				ObjectMessage objMessage = (ObjectMessage) message;
 				Object obj = objMessage.getObject();
-								
+							
+				//System.out.println("## recebi mensagem da fila");
+				
 				if (obj instanceof IPAddressTO) {				
 					// pegar o vetor de no maximo 10 posições
 					IPAddressTO to = (IPAddressTO) obj;					
 					IPAddress ip = new IPAddress();
 					ip.setIp(to.getIp());
-					ip.setAtivo(to.getAtivo());
+					// fazer o ping para poder salvar
+					ip.setAtivo(TestRuntime.execPing(to.getIp()));					
 					dao.insert(ip);
 				}
 			}

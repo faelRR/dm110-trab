@@ -16,6 +16,7 @@ public class AddressDAO {
 	private EntityManager em;
 
 	public void insert(IPAddress ipAddress) {
+		em.remove(ipAddress);
 		em.persist(ipAddress);
 	}
 

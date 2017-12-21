@@ -19,6 +19,7 @@ import br.inatel.pos.mobile.dm110.dao.AddressDAO;
 import br.inatel.pos.mobile.dm110.interfaces.ManagementLocal;
 import br.inatel.pos.mobile.dm110.interfaces.ManagementRemote;
 import br.inatel.pos.mobile.dm110.to.IPAddressTO;
+import br.inatel.pos.mobile.dm110.util.NetworkIpGen;
 
 @Stateless
 @Local(ManagementLocal.class)
@@ -34,19 +35,51 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 	@Resource(lookup = "java:/jms/queue/managementqueue")
 	private Queue queue;
 
+	public String[] findIP(String ip , String mask){
+		
+		// chavama a funcao de descobrir ip
+		
+		// funcao para envio de 10 em 10
+		
+		// remover endereços de broadcast 
+		
+		return NetworkIpGen.generateIps(ip, Integer.parseInt(mask));
+	}
+	
 	@Override
-	public void addNewIP(IPAddressTO to) {
+	public void addNewIP(String ip , String mask) {
+		
+		String[] generatedIps = findIP(ip , mask);
+		
 		try (
 				Connection connection = connectionFactory.createConnection();
 				Session session = connection.createSession();
 				MessageProducer producer = session.createProducer(queue);
 		) {
-			ObjectMessage objMessage = session.createObjectMessage();
-			objMessage.setObject(to);
-			producer.send(objMessage);
+		
+			for (String ip2 : generatedIps) {
+				
+				// mostrnado ips
+				System.out.println(ip2);
+				
+				IPAddressTO to = new IPAddressTO();
+				to.setIp(ip2);
+				to.setAtivo(false);
+			
+				// jogando para a fila 
+			
+				ObjectMessage objMessage = session.createObjectMessage();
+				objMessage.setObject(to);
+				producer.send(objMessage);
+				
+			}
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}
+		
+		System.out.println("## terminou a funcao");
+		
+		
 	}
 
 

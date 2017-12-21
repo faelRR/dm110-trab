@@ -24,7 +24,7 @@ public class TestRuntime {
 			}
 			if (error.length() > 0) {
 				return false;
-			}
+			}			
 			if (input.contains("Host de destino inacess")) {
 				return false;
 			}
