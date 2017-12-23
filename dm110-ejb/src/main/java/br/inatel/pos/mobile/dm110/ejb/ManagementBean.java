@@ -20,6 +20,7 @@ import javax.jms.Session;
 import br.inatel.pos.mobile.dm110.dao.AddressDAO;
 import br.inatel.pos.mobile.dm110.interfaces.ManagementLocal;
 import br.inatel.pos.mobile.dm110.interfaces.ManagementRemote;
+import br.inatel.pos.mobile.dm110.to.IPAddressList;
 import br.inatel.pos.mobile.dm110.to.IPAddressTO;
 import br.inatel.pos.mobile.dm110.util.NetworkIpGen;
 
@@ -63,40 +64,35 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 			//for (String ip2 : generatedIps) {
 				
 			// mostrnado ips
-			//System.out.println(ip2);
-		
 			
-			List<IPAddressTO> lista = new ArrayList<IPAddressTO>();
+			System.out.println("## preenchendo lista");
+					
+			for (int i = 0 ; i <= generatedIps.length - 1 ; i += 10){
 			
-			for (int i = 0 ; i <= generatedIps.length ; i += 10){
+				String[] lista = new String[10];
+							
+				if (i   < generatedIps.length-1){ lista[0] = (generatedIps[i]  ) ; }
+				if (i+1 < generatedIps.length-1){ lista[1] = (generatedIps[i+1]) ; }
+				if (i+2 < generatedIps.length-1){ lista[2] = (generatedIps[i+2]) ; }
+				if (i+3 < generatedIps.length-1){ lista[3] = (generatedIps[i+3]) ; }
+				if (i+4 < generatedIps.length-1){ lista[4] = (generatedIps[i+4]) ; }
+				if (i+5 < generatedIps.length-1){ lista[5] = (generatedIps[i+5]) ; }
+				if (i+6 < generatedIps.length-1){ lista[6] = (generatedIps[i+6]) ; }
+				if (i+7 < generatedIps.length-1){ lista[7] = (generatedIps[i+7]) ; }
+				if (i+8 < generatedIps.length-1){ lista[8] = (generatedIps[i+8]) ; }
+				if (i+9 < generatedIps.length-1){ lista[9] = (generatedIps[i+9]) ; }	
 			
-				IPAddressTO to = new IPAddressTO();
-				
-				if (i   <= generatedIps.length){ to.setIp(generatedIps[i  ]); to.setAtivo(false); lista.add(to); }
-				if (i+1 <= generatedIps.length){ to.setIp(generatedIps[i+1]); to.setAtivo(false); lista.add(to); }
-				if (i+2 <= generatedIps.length){ to.setIp(generatedIps[i+2]); to.setAtivo(false); lista.add(to); }
-				if (i+3 <= generatedIps.length){ to.setIp(generatedIps[i+3]); to.setAtivo(false); lista.add(to); }
-				if (i+4 <= generatedIps.length){ to.setIp(generatedIps[i+4]); to.setAtivo(false); lista.add(to); }
-				if (i+5 <= generatedIps.length){ to.setIp(generatedIps[i+5]); to.setAtivo(false); lista.add(to); }
-				if (i+6 <= generatedIps.length){ to.setIp(generatedIps[i+6]); to.setAtivo(false); lista.add(to); }
-				if (i+7 <= generatedIps.length){ to.setIp(generatedIps[i+7]); to.setAtivo(false); lista.add(to); }
-				if (i+8 <= generatedIps.length){ to.setIp(generatedIps[i+8]); to.setAtivo(false); lista.add(to); }
-				if (i+9 <= generatedIps.length){ to.setIp(generatedIps[i+9]); to.setAtivo(false); lista.add(to); }
+				IPAddressList listaIP = new IPAddressList();
+				listaIP.setLista(lista);			
+			
+				// jogando a lista para a fila 		
+				ObjectMessage objMessage = session.createObjectMessage();
+				objMessage.setObject(listaIP);
+				producer.send(objMessage);
 				
 			}
 			
-			
-//			IPAddressTO to = new IPAddressTO();
-//			to.setIp(ip2);
-//			to.setAtivo(false);
-//		
-			// jogando para a fila 
-		
-			ObjectMessage objMessage = session.createObjectMessage();
-			//objMessage.setObject(to);
-			objMessage.setObject(lista);
-			producer.send(objMessage);
-			
+			System.out.println("## terminou a fila");
 			
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
