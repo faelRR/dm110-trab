@@ -7,6 +7,6 @@ public interface Management {
 
 	void addNewIP(String ip , String mask);
 
-	boolean listIP(String ip);
+	String listIP(String ip);
 
 }

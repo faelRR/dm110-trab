@@ -19,7 +19,7 @@ public class ManagementServiceImpl implements ManagementService {
 	}
 
 	@Override
-	public boolean listIP(String ip) {
+	public String listIP(String ip) {
 		return managementBean.listIP(ip);
 	}
 

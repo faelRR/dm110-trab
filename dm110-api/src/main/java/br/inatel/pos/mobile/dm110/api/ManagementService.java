@@ -19,6 +19,6 @@ public interface ManagementService {
 	@GET
 	@Path("/status/{IP}")
 	@Produces(MediaType.APPLICATION_JSON)
-	boolean listIP(@PathParam("IP") String ip);
+	String listIP(@PathParam("IP") String ip);
 	
 }

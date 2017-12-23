@@ -15,19 +15,23 @@ public class AddressDAO {
 	@PersistenceContext(unitName = "poller")
 	private EntityManager em;
 
-	public void insert(IPAddress ipAddress) {
-		em.remove(ipAddress);
-		em.persist(ipAddress);
+	public void insert(IPAddress ipAddress) {	
+		em.merge(ipAddress);
 	}
 
-	public boolean find(String ip) {
+	public String find(String ip) {
 	    
-		boolean retorno;
+		String retorno;
 		// tenta pegar o primeiro retorno da consulta
 		if ((em.createQuery("from IPAddress a where a.ip=:ip", IPAddress.class).setParameter("ip", ip).getResultList()).size() == 0){
-			retorno = false;
+			retorno = "IP não encontrado";
 		}else{
-			retorno = em.createQuery("from IPAddress a where a.ip=:ip", IPAddress.class).setParameter("ip", ip).getResultList().get(0).isAtivo();
+			if (em.createQuery("from IPAddress a where a.ip=:ip", IPAddress.class).setParameter("ip", ip).getResultList().get(0).isAtivo()){
+				retorno = "IP Ativo"; 						
+			}else{
+				retorno = "IP Inativo";
+			}
+				
 		}
 		
 		return retorno;

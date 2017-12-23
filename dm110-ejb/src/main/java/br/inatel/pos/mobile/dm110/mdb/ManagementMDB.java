@@ -37,6 +37,9 @@ public class ManagementMDB implements MessageListener {
 				
 				if (obj instanceof IPAddressTO) {				
 					// pegar o vetor de no maximo 10 posições
+					
+					pegas as 10 posição
+					
 					IPAddressTO to = (IPAddressTO) obj;					
 					IPAddress ip = new IPAddress();
 					ip.setIp(to.getIp());

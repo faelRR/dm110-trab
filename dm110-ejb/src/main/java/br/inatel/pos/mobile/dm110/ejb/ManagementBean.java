@@ -1,5 +1,7 @@
 package br.inatel.pos.mobile.dm110.ejb;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -57,22 +59,45 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 				MessageProducer producer = session.createProducer(queue);
 		) {
 		
-			for (String ip2 : generatedIps) {
+			// generatedIps = lista de todos os ips encontrados
+			//for (String ip2 : generatedIps) {
 				
-				// mostrnado ips
-				System.out.println(ip2);
-				
+			// mostrnado ips
+			//System.out.println(ip2);
+		
+			
+			List<IPAddressTO> lista = new ArrayList<IPAddressTO>();
+			
+			for (int i = 0 ; i <= generatedIps.length ; i += 10){
+			
 				IPAddressTO to = new IPAddressTO();
-				to.setIp(ip2);
-				to.setAtivo(false);
-			
-				// jogando para a fila 
-			
-				ObjectMessage objMessage = session.createObjectMessage();
-				objMessage.setObject(to);
-				producer.send(objMessage);
+				
+				if (i   <= generatedIps.length){ to.setIp(generatedIps[i  ]); to.setAtivo(false); lista.add(to); }
+				if (i+1 <= generatedIps.length){ to.setIp(generatedIps[i+1]); to.setAtivo(false); lista.add(to); }
+				if (i+2 <= generatedIps.length){ to.setIp(generatedIps[i+2]); to.setAtivo(false); lista.add(to); }
+				if (i+3 <= generatedIps.length){ to.setIp(generatedIps[i+3]); to.setAtivo(false); lista.add(to); }
+				if (i+4 <= generatedIps.length){ to.setIp(generatedIps[i+4]); to.setAtivo(false); lista.add(to); }
+				if (i+5 <= generatedIps.length){ to.setIp(generatedIps[i+5]); to.setAtivo(false); lista.add(to); }
+				if (i+6 <= generatedIps.length){ to.setIp(generatedIps[i+6]); to.setAtivo(false); lista.add(to); }
+				if (i+7 <= generatedIps.length){ to.setIp(generatedIps[i+7]); to.setAtivo(false); lista.add(to); }
+				if (i+8 <= generatedIps.length){ to.setIp(generatedIps[i+8]); to.setAtivo(false); lista.add(to); }
+				if (i+9 <= generatedIps.length){ to.setIp(generatedIps[i+9]); to.setAtivo(false); lista.add(to); }
 				
 			}
+			
+			
+//			IPAddressTO to = new IPAddressTO();
+//			to.setIp(ip2);
+//			to.setAtivo(false);
+//		
+			// jogando para a fila 
+		
+			ObjectMessage objMessage = session.createObjectMessage();
+			//objMessage.setObject(to);
+			objMessage.setObject(lista);
+			producer.send(objMessage);
+			
+			
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}
@@ -84,7 +109,7 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 
 
 	@Override
-	public boolean listIP(String ip){
+	public String listIP(String ip){
 		return dao.find(ip);
 //				.stream()
 //				.map(a -> {
