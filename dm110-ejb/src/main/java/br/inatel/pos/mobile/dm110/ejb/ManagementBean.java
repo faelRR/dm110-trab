@@ -66,8 +66,10 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 			// mostrnado ips
 			
 			System.out.println("## preenchendo lista");
-					
-			for (int i = 0 ; i <= generatedIps.length - 1 ; i += 10){
+			
+			// começa do 1 para ignorar o endereço de rede e termina um elemento a menos para ignorar o endereço de broadcast
+			
+			for (int i = 1 ; i <= generatedIps.length - 2 ; i += 10){
 			
 				String[] lista = new String[10];
 							
@@ -84,7 +86,11 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 			
 				IPAddressList listaIP = new IPAddressList();
 				listaIP.setLista(lista);			
-			
+							
+				System.out.println(lista[0] + " - " + lista[1] + " - " + lista[2] + " - " + lista[3] + " - " + lista[4] 
+						 + " - " + lista[5] + " - " + lista[6] + " - " + lista[7] + " - " + lista[8] + " - " + lista[9]);
+				
+					
 				// jogando a lista para a fila 		
 				ObjectMessage objMessage = session.createObjectMessage();
 				objMessage.setObject(listaIP);
