@@ -2,18 +2,6 @@ package br.inatel.pos.mobile.dm110.util;
 
 public class NetworkIpGen {
 	
-//	public static void main(String[] args) {
-//		try (Scanner scanner = new Scanner(System.in)) {
-//			System.out.println("Digite o endereço:");
-//			String networkIp = scanner.next() + scanner.nextLine();
-//			System.out.println("Digite a máscara CIDR:");
-//			int cidr = scanner.nextInt();
-//			String[] generatedIps = generateIps(networkIp, cidr);
-//			for (String ip : generatedIps) {
-//				System.out.println(ip);
-//			}
-//		}
-//	}
 
 	public static String[] generateIps(String networkIp, int cidr) {
 		int rangeSize = 0;

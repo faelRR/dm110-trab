@@ -37,7 +37,7 @@ public class ManagementMDB implements MessageListener {
 				ObjectMessage objMessage = (ObjectMessage) message;
 				Object obj = objMessage.getObject();
 							
-				System.out.println("## recebi mensagem da fila");
+				//System.out.println("## recebi mensagem da fila");
 				
 				if (obj instanceof IPAddressList) {				
 					// pegar o vetor de no maximo 10 posições

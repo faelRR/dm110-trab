@@ -59,17 +59,11 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 				Session session = connection.createSession();
 				MessageProducer producer = session.createProducer(queue);
 		) {
-		
-			// generatedIps = lista de todos os ips encontrados
-			//for (String ip2 : generatedIps) {
-				
-			// mostrnado ips
-			
-			System.out.println("## preenchendo lista");
-			
-			// começa do 1 para ignorar o endereço de rede e termina um elemento a menos para ignorar o endereço de broadcast
-			
-			for (int i = 1 ; i <= generatedIps.length - 2 ; i += 10){
+						
+			// mostrnado ips			
+			//System.out.println("## preenchendo lista");
+						
+			for (int i = 0 ; i <= generatedIps.length - 1 ; i += 10){
 			
 				String[] lista = new String[10];
 							
@@ -87,8 +81,8 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 				IPAddressList listaIP = new IPAddressList();
 				listaIP.setLista(lista);			
 							
-				System.out.println(lista[0] + " - " + lista[1] + " - " + lista[2] + " - " + lista[3] + " - " + lista[4] 
-						 + " - " + lista[5] + " - " + lista[6] + " - " + lista[7] + " - " + lista[8] + " - " + lista[9]);
+				//System.out.println(lista[0] + " - " + lista[1] + " - " + lista[2] + " - " + lista[3] + " - " + lista[4] 
+				//		 + " - " + lista[5] + " - " + lista[6] + " - " + lista[7] + " - " + lista[8] + " - " + lista[9]);
 				
 					
 				// jogando a lista para a fila 		
@@ -98,13 +92,13 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 				
 			}
 			
-			System.out.println("## terminou a fila");
+			// System.out.println("## terminou a fila");
 			
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("## terminou a funcao");
+		//System.out.println("## terminou a funcao");
 		
 		
 	}
@@ -113,14 +107,6 @@ public class ManagementBean implements ManagementLocal, ManagementRemote {
 	@Override
 	public String listIP(String ip){
 		return dao.find(ip);
-//				.stream()
-//				.map(a -> {
-//					IPAddressTO to = new IPAddressTO();
-//					to.setIp(a.getIP());
-//					to.setAtivo(a.getAtivo());
-//					return to;
-//				}).collect(Collectors.toList())
-//				.toArray(new ProductTO[0]);
 	}
 
 }
